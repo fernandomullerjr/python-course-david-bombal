@@ -1,0 +1,27 @@
+
+#### topologia
+Python3 course - 5 switches initial topology
+
+-Configurar usuários, configurar modo de conexão e gerar chave rsa:
+
+enable
+nemsei90
+conf t
+username fernando password nemsei90
+username fernando priv 15
+username datacenter password nemsei90
+username datacenter priv 15
+enable secret nemsei90
+line vty 0 4
+login local
+transport input all
+ip domain-name cciepython.com
+crypto key generate rsa
+1024
+end
+wr
+
+
+
+-No meu caso foi necessário deletar a chave com problemas:
+ssh-keygen -f "/root/.ssh/known_hosts" -R "192.168.122.72"

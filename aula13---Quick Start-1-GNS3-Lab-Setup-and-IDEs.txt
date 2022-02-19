@@ -1,0 +1,290 @@
+
+####
+Python Network Programming for Network Engineers (Python 3)
+
+
+
+########
+aula 13
+13. Quick Start 1: GNS3 Lab Setup and IDEs
+
+
+#############################################################################
+#############################################################################
+########### TOPOLOGIA
+Python3 course - initial topology
+
+
+-Configurar a NetworkAutomation vm
+
+cat /etc/network/interfaces
+
+
+-Teria que descomentar as 2 ultimas linhas, no meu caso já estavam descomentadas:
+
+root@NetworkAutomation-1:~# cat /etc/network/interfaces
+#
+# This is a sample network config uncomment lines to configure the network
+#
+
+
+# Static config for eth0
+#auto eth0
+#iface eth0 inet static
+#       address 192.168.0.2
+#       netmask 255.255.255.0
+#       gateway 192.168.0.1
+#       up echo nameserver 192.168.0.1 > /etc/resolv.conf
+
+# DHCP config for eth0
+ auto eth0
+ iface eth0 inet dhcp
+root@NetworkAutomation-1:~#
+
+
+-Pegando ip:
+
+root@NetworkAutomation-1:~# ifconfig -a
+eth0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 192.168.122.120  netmask 255.255.255.0  broadcast 192.168.122.255
+        ether b2:b3:bd:8b:19:a2  txqueuelen 1000  (Ethernet)
+        RX packets 285  bytes 21771 (21.7 KB)
+        RX errors 0  dropped 12  overruns 0  frame 0
+        TX packets 8  bytes 1932 (1.9 KB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+
+
+-Roteador r1:
+192.168.122.71
+
+
+-Configurar usuários no roteador r1, para obter acesso via Telnet:
+conf t
+username fernando password nemsei90
+username datacenter password nemsei90
+enable secret nemsei90
+line vty 0 4
+login local
+transport input all
+end
+wr
+
+
+
+
+-To delete all lines in vim, use this command:
+:1,$d
+
+
+
+
+-Verificar conexões ao roteador usando o debug:
+debug telnet
+
+R1#debug telnet
+Incoming Telnet debugging is on
+R1#
+
+
+-Usar o comando "show line" para ver conexões estabelecidas no momento:
+
+R1#
+R1#show line
+   Tty Typ     Tx/Rx    A Modem  Roty AccO AccI   Uses   Noise  Overruns   Int
+*     0 CTY              -    -      -    -    -      0       0     0/0       -
+      1 AUX   9600/9600  -    -      -    -    -      0       0     0/0       -
+    578 VTY              -    -      -    -    -      4       0     0/0       -
+    579 VTY              -    -      -    -    -      0       0     0/0       -
+    580 VTY              -    -      -    -    -      0       0     0/0       -
+    581 VTY              -    -      -    -    -      0       0     0/0       -
+    582 VTY              -    -      -    -    -      0       0     0/0       -
+
+Line(s) not in async mode -or- with no hardware support:
+2-577
+
+R1#
+
+
+
+##################################################################################
+##################################################################################
+##################################################################################
+##################################################################################
+##################################################################################
+
+-Executar o script em Python apartir do servidor de automação/container:
+python3 python31.py
+
+
+
+-Conexão via Telnet ocorrendo:
+
+*Mar 24 23:32:56.097: Telnet578: 1 1 251 1
+*Mar 24 23:32:56.097: TCP578: Telnet sent WILL ECHO (1)
+*Mar 24 23:32:56.098: Telnet578: 2 2 251 3
+*Mar 24 23:32:56.098: TCP578: Telnet sent WILL SUPPRESS-GA (3)
+*Mar 24 23:32:56.098: Telnet578: 80000 80000 253 24
+*Mar 24 23:32:56.099: TCP578: Telnet sent DO TTY-TYPE (24)
+*Mar 24 23:32:56.099: Telnet578: 10000000 10000000 253 31
+*Mar 24 23:32:56.100: TCP578: Telnet sent DO WINDOW-SIZE (31)
+*Mar 24 23:32:56.118: TCP578: Telnet received DONT ECHO (1)
+*Mar 24 23:32:56.119: TCP578: Telnet sent WONT ECHO (1)
+*Mar 24 23:32:56.129: TCP578: Telnet received DONT SUPPRESS-GA (3)
+*Mar 24 23:32:56.130: TCP578: Telnet sent WONT SUPPRESS-GA (3)
+*Mar 24 23:32:56.131: TCP578: Telnet received WONT TTY-TYPE (24)
+*Mar 24 23:32:56.132: TCP578: Telnet sent DONT TTY-TYPE (24)
+*Mar 24 23:32:56.134: TCP578: Telnet received WONT WINDOW-SIZE (31)
+*Mar 24 23:32:56.134: TCP578: Telnet sent DONT WINDOW-SIZE (31)
+*Mar 24 23:32:56.162: TCP578: Telnet received DONT ECHO (1)
+*Mar 24 23:32:56.162: TCP578: Telnet received DONT SUPPRESS-GA (3)
+*Mar 24 23:32:56.162: TCP578: Telnet received WONT TTY-TYPE (24)
+*Mar 24 23:32:56.163: TCP578: Telnet received WONT WINDOW-SIZE (31)
+
+
+-Interface loopback ficando up:
+
+R1#
+*Mar 24 23:32:56.487: %SYS-5-CONFIG_I: Configured from console by fernando on vty0 (192.168.122.120)
+*Mar 24 23:32:57.340: %LINEPROTO-5-UPDOWN: Line protocol on Interface Loopback33, changed state to up
+
+
+-Interface loopback configurada:
+
+R1#show ip inter br
+Interface                  IP-Address      OK? Method Status                Protocol
+GigabitEthernet0/0         192.168.122.71  YES NVRAM  up                    up
+GigabitEthernet0/1         unassigned      YES NVRAM  administratively down down
+GigabitEthernet0/2         unassigned      YES NVRAM  administratively down down
+GigabitEthernet0/3         unassigned      YES NVRAM  administratively down down
+Loopback0                  1.1.1.1         YES NVRAM  up                    up
+Loopback33                 3.3.3.3         YES manual up                    up
+R1#
+
+
+
+-Criada outra loopback, a loopback 44:
+
+
+R1#
+*Mar 24 23:42:18.828: Telnet578: 1 1 251 1
+*Mar 24 23:42:18.829: TCP578: Telnet sent WILL ECHO (1)
+*Mar 24 23:42:18.829: Telnet578: 2 2 251 3
+*Mar 24 23:42:18.829: TCP578: Telnet sent WILL SUPPRESS-GA (3)
+*Mar 24 23:42:18.829: Telnet578: 80000 80000 253 24
+*Mar 24 23:42:18.830: TCP578: Telnet sent DO TTY-TYPE (24)
+*Mar 24 23:42:18.830: Telnet578: 10000000 10000000 253 31
+*Mar 24 23:42:18.830: TCP578: Telnet sent DO WINDOW-SIZE (31)
+*Mar 24 23:42:18.849: TCP578: Telnet received DONT ECHO (1)
+*Mar 24 23:42:18.852: TCP578: Telnet sent WONT ECHO (1)
+*Mar 24 23:42:18.861: TCP578: Telnet received DONT SUPPRESS-GA (3)
+*Mar 24 23:42:18.861: TCP578: Telnet sent WONT SUPPRESS-GA (3)
+R1#
+*Mar 24 23:42:18.863: TCP578: Telnet received WONT TTY-TYPE (24)
+*Mar 24 23:42:18.864: TCP578: Telnet sent DONT TTY-TYPE (24)
+*Mar 24 23:42:18.865: TCP578: Telnet received WONT WINDOW-SIZE (31)
+*Mar 24 23:42:18.866: TCP578: Telnet sent DONT WINDOW-SIZE (31)
+*Mar 24 23:42:18.892: TCP578: Telnet received DONT ECHO (1)
+*Mar 24 23:42:18.892: TCP578: Telnet received DONT SUPPRESS-GA (3)
+*Mar 24 23:42:18.893: TCP578: Telnet received WONT TTY-TYPE (24)
+*Mar 24 23:42:18.893: TCP578: Telnet received WONT WINDOW-SIZE (31)
+R1#
+*Mar 24 23:42:19.518: %SYS-5-CONFIG_I: Configured from console by fernando on vty0 (192.168.122.120)
+*Mar 24 23:42:20.247: %LINEPROTO-5-UPDOWN: Line protocol on Interface Loopback44, changed state to up
+R1#show ip inter br
+Interface                  IP-Address      OK? Method Status                Protocol
+GigabitEthernet0/0         192.168.122.71  YES NVRAM  up                    up
+GigabitEthernet0/1         unassigned      YES NVRAM  administratively down down
+GigabitEthernet0/2         unassigned      YES NVRAM  administratively down down
+GigabitEthernet0/3         unassigned      YES NVRAM  administratively down down
+Loopback0                  1.1.1.1         YES NVRAM  up                    up
+Loopback33                 3.3.3.3         YES manual up                    up
+Loopback44                 4.4.4.4         YES manual up                    up
+R1#
+
+
+
+
+
+
+
+
+
+##################################################################################
+##################################################################################
+##################################################################################
+##################################################################################
+##################################################################################
+##################################################################################
+##################################################################################
+##################################################################################
+##################################################################################
+##################################################################################
+####################################### Habilitar o OSPF via script Python
+
+-Verificando a inexistencia de protocolo ativo:
+
+R1#show ip prot
+R1#show ip protocols
+*** IP Routing is NSF aware ***
+
+Routing Protocol is "application"
+  Sending updates every 0 seconds
+  Invalid after 0 seconds, hold down 0, flushed after 0
+  Outgoing update filter list for all interfaces is not set
+  Incoming update filter list for all interfaces is not set
+  Maximum path: 32
+  Routing for Networks:
+  Routing Information Sources:
+    Gateway         Distance      Last Update
+  Distance: (default is 4)
+
+R1#
+R1#
+
+
+-Adicionadas estas linhas ao script:
+tn.write(b"router ospf 1\n")
+tn.write(b"network 0.0.0.0 255.255.255.255 area 0\n")
+
+
+
+-Script executado, protocolo OSPF ativado:
+
+R1#show ip protocols
+*** IP Routing is NSF aware ***
+
+Routing Protocol is "application"
+  Sending updates every 0 seconds
+  Invalid after 0 seconds, hold down 0, flushed after 0
+  Outgoing update filter list for all interfaces is not set
+  Incoming update filter list for all interfaces is not set
+  Maximum path: 32
+  Routing for Networks:
+  Routing Information Sources:
+    Gateway         Distance      Last Update
+  Distance: (default is 4)
+
+Routing Protocol is "ospf 1"
+  Outgoing update filter list for all interfaces is not set
+  Incoming update filter list for all interfaces is not set
+  Router ID 4.4.4.4
+  Number of areas in this router is 1. 1 normal 0 stub 0 nssa
+  Maximum path: 4
+  Routing for Networks:
+    0.0.0.0 255.255.255.255 area 0
+  Routing Information Sources:
+    Gateway         Distance      Last Update
+  Distance: (default is 110)
+
+R1#
+R1#
+R1#
+R1#SHOW IP OSPF inter br
+Interface    PID   Area            IP Address/Mask    Cost  State Nbrs F/C
+Lo0          1     0               1.1.1.1/32         1     LOOP  0/0
+Lo33         1     0               3.3.3.3/32         1     LOOP  0/0
+Lo44         1     0               4.4.4.4/32         1     LOOP  0/0
+Gi0/0        1     0               192.168.122.71/24  1     DR    0/0
+R1#
+

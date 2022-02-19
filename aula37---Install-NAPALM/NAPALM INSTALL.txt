@@ -1,0 +1,85 @@
+NAPALM INSTALL: 
+===============
+These steps are only required if you don't have Netmiko and NAPALM installed. See the below steps for Python3 NAPALM
+
+apt-get update -y
+apt-get install python -y
+apt-get install build-essential libssl-dev libffi-dev -y
+apt-get install python-pip -y
+pip install cryptography -y
+pip install netmiko -y
+pip install napalm -y
+
+PYTHON3 NAPALM INSTALL:
+========================
+Use the following commands to install Python3 Netmiko and NAPALM:
+
+apt-get update -y
+apt-get install python3-pip -y
+pip3 install -U netmiko
+pip3 install -U napalm -y
+pip3 install -U simplejson -y
+
+
+
+####################################################################################################
+####################################################################################################
+####################################################################################################
+#### erros no Python, necessário usar o Python 3.9 no UbuntuDockerGuest-1
+-Instalar o Python 3.9 usando o manual:
+https://linuxize.com/post/how-to-install-python-3-9-on-ubuntu-20-04/
+apt update
+apt install software-properties-common
+add-apt-repository ppa:deadsnakes/ppa
+apt install python3.9
+python3.9 --version
+apt update
+apt install build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libreadline-dev libffi-dev libsqlite3-dev wget libbz2-dev
+wget https://www.python.org/ftp/python/3.9.1/Python-3.9.1.tgz
+tar -xf Python-3.9.1.tgz
+cd Python-3.9.1
+./configure --enable-optimizations
+make -j 12
+make altinstall
+python3.9 --version
+
+-Erro AttributeError: module 'platform' has no attribute 'linux_distribution':
+https://qastack.com.br/programming/58758447/how-to-fix-module-platform-has-no-attribute-linux-distribution-when-instal
+O Python 3.8 removeu algumas coisas. Resolvi meus problemas com o pip (especificamente instalação do pip) instalando o pip com curl
+O que funcionou para mim foi: Fazendo o seguinte:
+python3.9 -m easy_install pip
+python3.9 -m pip install --upgrade pip setuptools wheel
+O que funcionou para mim foi: Fazendo o
+cd /tmp
+curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+python3.9 get-pip.py
+
+python3.9 -m pip install netmiko
+python3.9 -m pip install napalm
+python3.9 -m pip install simplejson
+python3.9 -m pip install cryptography
+
+
+
+####################################################################################################
+####################################################################################################
+####################################################################################################
+#### erros, tentei usando abaixo, sem sucesso
+https://github.com/ktbyers/netmiko/issues/871
+I removed the duplicate line (I'd added in error) from sources.list file and ran the following commands to upgrade, then install the python3-venv & python3-dev packages:
+apt-get upgrade -y
+apt-get install python3-venv -y
+apt-get install python3-dev -y
+pip3 install --upgrade setuptools -y
+After that, running the pip3 install -U netmiko command worked and I was able to import the module:
+apt-get install python3-pip -y
+pip3 install -U netmiko -y
+pip3 install -U napalm -y
+pip3 install -U simplejson -y
+
+
+apt-get update && apt-get install -y software-properties-common gcc && \
+    add-apt-repository -y ppa:deadsnakes/ppa
+
+
+apt-get update && apt-get install -y python3.6 python3-distutils python3-pip python3-apt

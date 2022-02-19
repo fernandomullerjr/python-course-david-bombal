@@ -1,0 +1,14 @@
+root@NetworkAutomation-1:~# python3 aula49---teste-escrever-arquivo.py
+Accessing 192.168.122.72
+Traceback (most recent call last):
+  File "aula49---teste-escrever-arquivo.py", line 13, in <module>
+    diffs.stdout = open("test.txt", "w")
+AttributeError: 'str' object has no attribute 'stdout'
+root@NetworkAutomation-1:~#
+
+
+
+-Resolvido após usar o script abaixo:
+    f = open("testfile2.txt", "w")
+    f.write(diffs)
+    f.close()

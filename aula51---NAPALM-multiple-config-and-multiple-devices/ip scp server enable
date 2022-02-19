@@ -1,0 +1,11 @@
+You need to add the following command to the Cisco device:
+ip scp server enable 
+
+Example:
+S1(config)#ip scp server enable 
+
+
+conf t
+ip scp server enable
+end
+wr

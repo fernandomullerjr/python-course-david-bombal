@@ -1,0 +1,13 @@
+
+
+-Saída do script ao executar pela primeira vez:
+
+root@NetworkAutomation-1:~# python3 aula50-NAPALM-multiple-config-file.py
+Accessing 192.168.122.72
++access-list 100 permit tcp any any eq domain
++access-list 100 permit tcp any any eq www
++router ospf 1
++ network 10.1.1.0 0.0.0.255 area 0
++ network 10.1.2.0 0.0.0.255 area 2
++ network 10.1.3.0 0.0.0.255 area 3
+root@NetworkAutomation-1:~#

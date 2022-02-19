@@ -1,0 +1,12 @@
+oi Diorges, obrigado pela ajuda, segue o código.
+@cpcosta#2721  / @Joao Muniz#9999 ,  segue o código.
+
+Segue o código:
+https://pastebin.com/X59EpJne
+
+Segue a saída do script:
+https://pastebin.com/YTXLdKar
+
+Para o host 192.168.122.71 o script está ok, ele atende a condicional, pois tem a palavra "prod_rel_team" no seu show version.
+Os demais hosts não tem nenhuma das opções da condicional no show version, mesmo assim seguem executando os comandos como se tivessem o "C3750-ADVIPSERVICESK9-M" no seu show version.
+Tentei fazer uma versão do código usando um else após os elif, mas ele segue até o último elif e não passa até o else.

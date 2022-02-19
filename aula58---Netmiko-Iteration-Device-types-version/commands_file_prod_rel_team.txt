@@ -1,0 +1,4 @@
+interface Loopback65
+ip address 65.65.65.65 255.255.255.255
+interface Loopback77
+ip address 65.65.65.77 255.255.255.255

@@ -1,0 +1,38 @@
+
+####################################################################################################
+####################################################################################################
+####################################################################################################
+#### erros no Python, necessário usar o Python 3.9 no UbuntuDockerGuest-1
+-Instalar o Python 3.9 usando o manual:
+https://linuxize.com/post/how-to-install-python-3-9-on-ubuntu-20-04/
+apt update
+apt install software-properties-common
+add-apt-repository ppa:deadsnakes/ppa
+apt install python3.9
+python3.9 --version
+apt update
+apt install build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libreadline-dev libffi-dev libsqlite3-dev wget libbz2-dev
+wget https://www.python.org/ftp/python/3.9.1/Python-3.9.1.tgz
+tar -xf Python-3.9.1.tgz
+cd Python-3.9.1
+./configure --enable-optimizations
+make -j 12
+make altinstall
+python3.9 --version
+
+-Erro AttributeError: module 'platform' has no attribute 'linux_distribution':
+https://qastack.com.br/programming/58758447/how-to-fix-module-platform-has-no-attribute-linux-distribution-when-instal
+O Python 3.8 removeu algumas coisas. Resolvi meus problemas com o pip (especificamente instalação do pip) instalando o pip com curl
+O que funcionou para mim foi: Fazendo o seguinte:
+python3.9 -m easy_install pip
+python3.9 -m pip install --upgrade pip setuptools wheel
+O que funcionou para mim foi: Fazendo o
+cd /tmp
+curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+python3.9 get-pip.py
+
+
+python3.9 -m pip install netmiko
+python3.9 -m pip install napalm
+python3.9 -m pip install simplejson
+python3.9 -m pip install cryptography

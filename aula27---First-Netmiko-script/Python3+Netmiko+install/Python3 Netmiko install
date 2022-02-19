@@ -1,0 +1,6 @@
+Use the following commands to install Python3 Netmiko:
+
+apt-get install python3-pip
+[no meu caso foi necessário usar este também: python3 -m pip install -U pip]
+pip3 install -U netmiko
+pip install --upgrade pip

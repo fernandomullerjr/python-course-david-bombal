@@ -1,0 +1,12 @@
+
+-Configurar usuários no roteador s1, para obter acesso via Telnet:
+
+conf t
+username fernando password nemsei90
+username datacenter password nemsei90
+enable secret nemsei90
+line vty 0 4
+login local
+transport input all
+end
+wr

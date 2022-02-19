@@ -1,0 +1,114 @@
+
+
+
+#############################################################################
+#############################################################################
+########### TOPOLOGIA
+Python3 course - initial topology
+
+
+#############################################################################
+#############################################################################
+########### Aula 16
+Quick Start 4: Telnet to a switch and create VLANs:
+
+
+
+
+
+-Configurar usuários no roteador s1, para obter acesso via Telnet:
+
+conf t
+username fernando password nemsei90
+username datacenter password nemsei90
+enable secret nemsei90
+line vty 0 4
+login local
+transport input all
+end
+wr
+
+
+
+
+S1#show run inter vlan 1
+Building configuration...
+
+Current configuration : 64 bytes
+!
+interface Vlan1
+ ip address 192.168.122.72 255.255.255.0
+end
+
+S1#
+
+
+-Haviam diversas vlans criadas, foi necessário remover elas:
+
+1 - executar o comando pra limpar a config inicial:
+erase startup-config
+
+2 - Deletar a database de vlans:
+
+S1#delete flash:vlan.dat
+Delete filename [vlan.dat]?
+Delete flash0:/vlan.dat? [confirm]
+%Error deleting flash0:/vlan.dat (File not found)
+S1#
+
+3 - Reload no equipamento
+reload
+
+
+
+
+-Reconfigurar o switch s1, apenas com a vlan1 e seu ip de gerencia e as configurações de Telnet:
+
+conf t
+!
+interface Vlan1
+ ip address 192.168.122.72 255.255.255.0
+ no shutdown
+exit
+hostname s1
+username fernando password nemsei90
+username datacenter password nemsei90
+enable secret nemsei90
+line vty 0 4
+login local
+transport input all
+end
+wr
+
+
+-Habilitar o debug do Telnet:
+debug telnet
+
+s1#debug telnet
+Incoming Telnet debugging is on
+s1#
+
+
+
+conf t
+no vlan 2
+no vlan 3
+no vlan 4
+no vlan 5
+no vlan 6
+no vlan 7
+no vlan 8
+no vlan 9
+no vlan 10
+no vlan 11
+no vlan 12
+no vlan 13
+no vlan 14
+no vlan 15
+no vlan 16
+no vlan 17
+no vlan 18
+no vlan 19
+no vlan 20
+end
+wr
